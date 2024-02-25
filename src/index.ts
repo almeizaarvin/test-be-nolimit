@@ -91,6 +91,34 @@ app.post('/register', async (req: Request, res: Response) => {
     }
   });
 
+  
+app.get('/posts', (req: Request, res: Response) => {
+    try {
+      pool.query('SELECT * FROM posts', (error, results) => {
+        if (error) {
+          return res.status(500).send('Error fetching posts');
+        }
+        res.send(results);
+      });
+    } catch (error) {
+      res.status(500).send('Error fetching posts');
+    }
+  });
+  
+  app.get('/posts/:id', (req: Request, res: Response) => {
+    try {
+      const postId = req.params.id;
+      pool.query('SELECT * FROM posts WHERE id = ' + postId, (error, results) => {
+        if (error) {
+          return res.status(500).send('Error fetching post');
+        }
+        res.send(results[0]);
+      });
+    } catch (error) {
+      res.status(500).send('Error fetching post');
+    }
+  });
+
   app.listen(3000, () => {
     console.log('The application is listening on port 3000!');
   });
