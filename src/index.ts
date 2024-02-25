@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import pool from './db';
 
+// INIT APP
 const app = express();
 app.use(express.json());
 
@@ -39,6 +40,8 @@ const verifyToken = (req: Request, res: Response, next: Function) => {
   }
 };
 
+
+// USER MANAGEMENT
 app.post('/register', async (req: Request, res: Response) => {
     try {
       const { name, email, password } = req.body;
@@ -91,7 +94,7 @@ app.post('/register', async (req: Request, res: Response) => {
     }
   });
 
-  
+// GET POSTS  
 app.get('/posts', (req: Request, res: Response) => {
     try {
       pool.query('SELECT * FROM posts', (error, results) => {
@@ -119,6 +122,59 @@ app.get('/posts', (req: Request, res: Response) => {
     }
   });
 
+
+//   CREATE POST
+  app.post('/posts', verifyToken, (req: Request, res: Response) => {
+    try {
+      const { content } = req.body;
+      const authorId = req.userId;
+      pool.query('INSERT INTO posts (content, authorId) VALUES (' + "'" + content + "', '" + authorId + "')", (error, results) => {
+        if (error) {
+          return res.status(500).send('Error creating post');
+        }
+        res.status(201).send('Post created successfully');
+      });
+    } catch (error) {
+      res.status(500).send('Error creating post');
+    }
+  });
+  
+//   UPDATE POST
+  app.put('/posts/:id', verifyToken, (req: Request, res: Response) => {
+    try {
+      const postId = req.params.id;
+      const { content } = req.body;
+      const authorId = req.userId;
+  
+      pool.query('UPDATE posts SET content = ' + "'" + content + "'" + ' WHERE id = ' + postId + ' AND authorId = ' + authorId, (error, results) => {
+        if (error) {
+          return res.status(500).send('Error updating post');
+        }
+        res.send('Post updated successfully');
+      });
+    } catch (error) {
+      res.status(500).send('Error updating post');
+    }
+  });
+  
+//   DELETE POST
+  app.delete('/posts/:id', verifyToken, (req: Request, res: Response) => {
+    try {
+      const postId = req.params.id;
+      const authorId = req.userId;
+  
+      pool.query('DELETE FROM posts WHERE id = ' + postId + ' AND authorId = ' + authorId, (error, results) => {
+        if (error) {
+          return res.status(500).send('Error deleting post');
+        }
+        res.send('Post deleted successfully');
+      });
+    } catch (error) {
+      res.status(500).send('Error deleting post');
+    }
+  });
+  
+  
   app.listen(3000, () => {
     console.log('The application is listening on port 3000!');
   });
