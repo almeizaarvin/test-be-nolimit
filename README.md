@@ -50,3 +50,56 @@ Simple application built with Node.js, Express.js, MySQL, JWT authentication, an
 1. **Run on dev**
     ```bash
     npm run dev
+
+## API Endpoints
+
+1. **POST /register**: Register a new user.
+   - **Body:**
+     - name
+     - email
+     - password
+   - **Response:**
+     - message
+
+2. **POST /login**: Log in with existing credentials and receive a JWT token.
+   - **Body:**
+     - email
+     - password
+   - **Response:**
+     - token
+
+3. **GET /posts**: Get all blog posts.
+   - **Response:**
+     - Array of posts
+
+4. **GET /posts/:id**: Get a specific blog post by ID.
+   - **Response:**
+     - id
+     - title
+     - content
+     - authorId
+     - createdAt
+
+5. **POST /posts**: Create a new blog post (needs authentication).
+   - **Header:**
+     - Authorization
+   - **Body:**
+     - title
+     - content
+   - **Response:**
+     - message
+
+6. **PUT /posts/:id**: Update an existing blog post (needs authentication).
+   - **Header:**
+     - Authorization
+   - **Body:**
+     - title
+     - content
+   - **Response:**
+     - message
+
+7. **DELETE /posts/:id**: Delete an existing blog post (needs authentication).
+   - **Header:**
+     - Authorization
+   - **Response:**
+     - message
