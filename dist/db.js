@@ -7,7 +7,7 @@ const mysql_1 = __importDefault(require("mysql"));
 // Create a MySQL connection pool
 const pool = mysql_1.default.createPool({
     host: '127.0.0.1',
-    user: 'root@localhost',
+    user: 'root',
     password: 'password',
     database: 'blog_db'
 });
