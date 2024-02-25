@@ -20,7 +20,6 @@ Simple application built with Node.js, Express.js, MySQL, JWT authentication, an
     DB_USER=root
     DB_PASSWORD=password
     DB_DATABASE=blog_db
-    JWT_SECRET=YourSecretKey
 
 
 ## Database Setup
