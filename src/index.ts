@@ -90,3 +90,7 @@ app.post('/register', async (req: Request, res: Response) => {
       res.status(500).send('Error logging in');
     }
   });
+
+  app.listen(3000, () => {
+    console.log('The application is listening on port 3000!');
+  });
